@@ -1,0 +1,5 @@
+@for $fs from 10 through 30 {
+  .fs-#{$fs} {
+    font-size: #{$fs*0.1}rem!important;
+  }
+}
