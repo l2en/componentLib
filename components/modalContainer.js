@@ -6,17 +6,17 @@
  * title: ''          模态框标题
  * footer: null       模态框底部显示控制
  * closable: true     模态框右上角×显示控制
- * 
- * =======================================
- * 这里是以在模态框中加入百度地图为例
+ * padding: 0         body与外边框距离，默认0
+ * top: 10            modal与浏览器上边距，默认10
+ * onOk               点击确认回调（footer为true时有效）
+ * onCancel           点击取消或点击右上角x回调（取消按钮footer为true时有效）
  * 
  */
 
 import React, { Component } from 'react';
 import { Modal } from 'antd';
-import BMap from 'BMap';
 
-class BaiduMap extends Component {
+class Dialogmy extends Component {
   static defaulProps = {
     mapSize: {
       width: '800px',
@@ -26,12 +26,6 @@ class BaiduMap extends Component {
     title: '',
     footer: null,
     closable: true,
-    coordinates: [
-      {
-        longitude: '116.404',
-        dimension: ' 39.915',
-      },
-    ], // 地图坐标
     zoom: 11,
     onCancle: () => {},
     onOk: () => {},
@@ -40,38 +34,30 @@ class BaiduMap extends Component {
   state = {};
 
   componentDidUpdate() {
-    const { visible, coordinates, zoom } = this.props;
-    if (visible) {
-      setTimeout(() => {
-        const map = new BMap.Map('map'); // 创建Map实例
-        map.centerAndZoom(new BMap.Point(coordinates[0].longitude, coordinates[0].dimension), zoom); // 初始化地图,设置中心点坐标和地图级别
-        map.addControl(new BMap.MapTypeControl()); // 添加地图类型控件
-        map.setCurrentCity('北京'); // 设置地图显示的城市 此项是必须设置的
-        map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
-      }, 100);
-    }
+
   }
 
   render() {
-    const { mapSize, onOk, onCancel, visible, title, footer, closable } = this.props;
+    const { width,height,visible, title, footer, closable } = this.props;
     return (
       <div>
         <Modal
           title={title}
           visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          width={mapSize.width}
-          height={mapSize.height}
+          width={width}
+          height={height}
           footer={footer}
           bodyStyle={{ padding: 0 }}
+          style={{top: 10}}
           closable={closable}
+          onOk={this.props.onOk}
+          onCancel={this.props.onCancel}
         >
-          <div style={{ width: mapSize.width, height: mapSize.height }} id="map" />
+        {this.props.children}
         </Modal>
       </div>
     );
   }
 }
 
-export default BaiduMap;
+export default Dialogmy;
