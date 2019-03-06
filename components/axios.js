@@ -21,14 +21,7 @@ axios.defaults.transformRequest = [function (DTO) {
       if(typeof DTO[i] == 'object' && String(Object.prototype.toString.call(DTO[i][0])) !='[object File]'){
         DTO[i] = JSON.stringify(DTO[i])
       }
-      if(String(Object.prototype.toString.call(DTO[i][0]))=='[object File]'){
-        DTO[i].forEach(item=>{
-          ret.append('file', item);
-        })
-      }
-      if(typeof DTO[i] == 'string'){
-        ret.append(i, DTO[i]);
-      }
+      ret.append(i, DTO[i]);
     }
   }
   if (Array.isArray(DTO)) {
